@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+
+    <table class="table table-dark table-striped">
+        <thead>
+            <th>Symbol</th>
+            <th>Shares</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <form action="/sell" method="post">
+                <td>
+
+                    <select name="symbol">
+                        <option disabled selected>Stocks</option>
+                        {% for record in records %}
+                            <option>{{record["stock"]}}</option>
+                        {% endfor %}
+                    </select>
+
+                </td>
+                <td>
+                    <input class="form-control mx-auto w-auto" autocomplete="off" type="text" name="shares" placeholder="shares">
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary">Sell</button>
+                </td>
+
+            </form>
+        </tbody>
+    </table>
+
+
+
+
+
+{% endblock %}

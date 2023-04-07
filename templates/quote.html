@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Quote
+{% endblock %}
+
+{% block main %}
+
+    <form action="/quote" method="post">
+        <h style="font-size:20px" class="w-bold">Stock Engine</h>
+        <input autocomplete="off" class="form-control mx-auto w-auto" autofocus name="symbol" type="text">
+        <button type="submit" class="btn btn-primary">Serach</button>
+    </form>
+
+
+{% endblock %}

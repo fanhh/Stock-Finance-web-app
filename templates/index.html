@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    homepage
+{% endblock %}
+
+{% block main %}
+    <table action = "/" class="table table-dark table-striped">
+        <thead>
+            <th>Symbol</th>
+            <th>Company</th>
+            <th>Shares</th>
+            <th>Price</th>
+            <th>Total</th>
+        </thead>
+        <tbody>
+            {% for transaction in transaction %}
+                <tr>
+                    <td>
+                        {{transaction["stock"]}}
+                    </td>
+                    <td>
+                        {{lookup(transaction["stock"]).name}}
+                    </td>
+                    <td>
+                        {{transaction["shares"]}}
+                    </td>
+                    <td>
+                        {{lookup(transaction["stock"]).price|usd}}
+                    </td>
+                    <td>
+                        {{round(lookup(transaction["stock"]).price * transaction["shares"], 2)|usd}}
+                    </td>
+                </tr>
+
+            {% endfor %}
+            <tr>
+                <td> </td>
+                <td> </td>
+                <td> </td>
+                <td>CASH</td>
+                <td>{{money|usd}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>TOTAL</td>
+                <td>{{round(money + t, 2)|usd}} </td>
+
+            </tr>
+
+        </tbody>
+
+
+
+
+
+
+
+
+{% endblock %}
