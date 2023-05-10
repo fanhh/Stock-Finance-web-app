@@ -53,8 +53,10 @@ def index():
         total += (p["price"] * transactions["shares"])
 
     try:
-
-        return render_template("index.html", money = cash[0]["cash"], transaction = transaction, lookup = lookup, usd = usd, round = round, t = total)
+        return render_template("index.html", money = cash[0]["cash"], 
+                               transaction = transaction, 
+                               lookup = lookup, usd = usd, 
+                               round = round, t = total)
     except IndexError:
         return redirect("/")
 
@@ -105,16 +107,20 @@ def buy():
 
         # If the users owns the stock he is purchasing
         if symbol.upper() in [x["stock"] for x in record]:
-            current_shares = db.execute("SELECT shares FROM transactions WHERE User_id = ? AND stock = ?", current_user, symbol.upper())
+            current_shares = db.execute("SELECT shares FROM transactions WHERE User_id = ? AND stock = ?", 
+                                        current_user, symbol.upper())
             total = int(current_shares[0]["shares"]) + shares
-            db.execute("UPDATE transactions SET shares = ? WHERE stock = ? AND User_id = ?", round(total, 2), symbol.upper(), current_user)
+            db.execute("UPDATE transactions SET shares = ? WHERE stock = ? AND User_id = ?", 
+                       round(total, 2), symbol.upper(), current_user)
 
 
         else:
-            db.execute("INSERT INTO transactions(User_id, stock, shares) VALUES(?,?,?)", current_user, symbol.upper(),shares)
+            db.execute("INSERT INTO transactions(User_id, stock, shares) VALUES(?,?,?)",
+                        current_user, symbol.upper(),shares)
 
 
-        db.execute("INSERT INTO history(user_id, stock, shares, balance, date) VALUES(?,?,?,?,CURRENT_TIMESTAMP)", current_user, symbol.upper(), shares, round(difference, 2))
+        db.execute("INSERT INTO history(user_id, stock, shares, balance, date) VALUES(?,?,?,?,CURRENT_TIMESTAMP)",
+                    current_user, symbol.upper(), shares, round(difference, 2))
 
         db.execute("UPDATE users SET cash = ? WHERE id = ?", difference, current_user)
         return redirect("/")
@@ -151,10 +157,12 @@ def login():
             return apology("must provide password", 403)
 
         # Query database for username
-        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
+        rows = db.execute("SELECT * FROM users WHERE username = ?", 
+                          request.form.get("username"))
 
         # Ensure username exists and password is correct
-        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
+        if len(rows) != 1 or not check_password_hash(rows[0]["hash"], 
+                                            request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
